@@ -1,5 +1,5 @@
 import React from 'react';
-import {resource_priorities} from '../../assets/ItemAux';
+import {resourcePriorities} from '../../assets/ItemAux';
 export default class ResourcePriorityForm extends React.Component {
         constructor(props) {
                 super(props);
@@ -28,7 +28,7 @@ export default class ResourcePriorityForm extends React.Component {
                 const resource_names = 'EMR';
                 return (<label key={this.props.rp_idx}>
                         <select value={this.state.value} onChange={this.handleChange}>
-                                {resource_priorities.map((prio, idx) => (<option value={idx} key={idx}>{resource_names[prio[0]] + '>' + resource_names[prio[1]] + '>' + resource_names[prio[2]]}</option>))}
+                                {resourcePriorities.map((prio, idx) => (<option value={idx} key={idx}>{resource_names[prio[0]] + '>' + resource_names[prio[1]] + '>' + resource_names[prio[2]]}</option>))}
                         </select>
                 </label>);
         }

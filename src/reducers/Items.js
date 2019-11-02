@@ -5,7 +5,7 @@ import {
         ItemNameContainer,
         Slot,
         EmptySlot,
-        update_level,
+        updateLevel,
         SetName,
         Factors,
         Hacks,
@@ -405,7 +405,7 @@ const ItemsReducer = (state = INITIAL_STATE, action) => {
                                         return state;
                                 }
                                 let item = state.itemdata[state.editItem[1]];
-                                update_level(item, action.payload.val);
+                                updateLevel(item, action.payload.val);
                                 return {
                                         ...state,
                                         editItem: {
@@ -864,7 +864,7 @@ const ItemsReducer = (state = INITIAL_STATE, action) => {
                                                 continue;
                                         }
                                         item.disable = saveditem.disable;
-                                        update_level(item, saveditem.level);
+                                        updateLevel(item, saveditem.level);
                                 }
                                 Object.getOwnPropertyNames(state).forEach(name => {
                                         if (name === 'version') {

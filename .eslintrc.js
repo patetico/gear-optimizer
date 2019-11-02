@@ -13,7 +13,9 @@ module.exports = {
   },
   extends: 'airbnb',
   plugins: ['react'],
-  rules: {},
+  rules: {
+    'no-plusplus': ['error', { 'allowForLoopAfterthoughts': true }],
+  },
   overrides: [
     {
       files: ['*.test.js', '*.test.jsx'],
