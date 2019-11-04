@@ -1,18 +1,29 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class Crement extends Component {
-        static propTypes = {
-                header: PropTypes.string.isRequired,
-                handleClick: PropTypes.func.isRequired
-        };
 
-        render() {
-                return (<>
-                        <button type="button" onClick={() => this.props.handleClick(this.props.name, -1, this.props.min, this.props.max)}> - </button>
-                        <button type="button" onClick={() => this.props.handleClick(this.props.name, 1, this.props.min, this.props.max)}> + </button>
-                        {' ' + this.props.header + ': ' + this.props.value + ' '}
-                </>);
-        }
+export default function Crement(props) {
+  const {
+    min, handleClick, max, name, value, header,
+  } = props;
+  return (
+    <>
+      <button type="button" onClick={() => handleClick(name, -1, min, max)}>
+        -
+      </button>
+      <button type="button" onClick={() => handleClick(name, 1, min, max)}>
+        +
+      </button>
+      {` ${header}: ${value}`}
+    </>
+  );
 }
 
+Crement.propTypes = {
+  header: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  min: PropTypes.number.isRequired,
+  max: PropTypes.number.isRequired,
+  name: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array]).isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+};

@@ -15,6 +15,15 @@ module.exports = {
   plugins: ['react'],
   rules: {
     'no-plusplus': ['error', { 'allowForLoopAfterthoughts': true }],
+    'react/jsx-props-no-spreading': [
+      'error',
+      {
+        html: 'enforce',
+        custom: 'ignore',
+        explicitSpread: 'ignore',
+      },
+    ],
+    'jsx-a11y/label-has-associated-control': ['error', { 'assert': 'either', 'depth': 25 }],
   },
   overrides: [
     {

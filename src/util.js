@@ -26,9 +26,9 @@ export function old2newequip(accslots, offhand, base_layout) {
 export function clone(obj) {
         let copy;
         // Handle the 3 simple types, and null or undefined
-        if (null == obj || "object" != typeof obj) 
+        if (null == obj || "object" != typeof obj)
                 return obj;
-        
+
         // Handle Date
         if (obj instanceof Date) {
                 copy = new Date();
@@ -47,7 +47,7 @@ export function clone(obj) {
         if (obj instanceof Object) {
                 copy = {};
                 for (let attr in obj) {
-                        if (obj.hasOwnProperty(attr)) 
+                        if (obj.hasOwnProperty(attr))
                                 copy[attr] = clone(obj[attr]);
                         }
                 return copy;
@@ -58,7 +58,7 @@ export function clone(obj) {
 export function get_limits(state) {
         return {
                 zone: state.zone,
-                titan: get_max_titan(state.zone),
+                titan: getMaxTitan(state.zone),
                 titanversion: state.titanversion,
                 looty: state.looty,
                 pendant: state.pendant
@@ -92,13 +92,13 @@ export function allowed_zone(itemdata, limits, name) {
         return true;
 }
 
-export function get_zone(zone) {
+export function getZone(zone) {
         return SetName[Object.getOwnPropertyNames(SetName).filter(x => {
                         return zone === SetName[x][1];
                 })[0]];
 }
 
-export function get_max_zone(zone) {
+export function getMaxZone(zone) {
         let maxzone = 1;
         Object.getOwnPropertyNames(SetName).forEach(x => {
                 maxzone = SetName[x][1] > maxzone
@@ -108,7 +108,7 @@ export function get_max_zone(zone) {
         return maxzone;
 }
 
-export function get_max_titan(zone) {
+export function getMaxTitan(zone) {
         let maxtitan = 21;
         Object.getOwnPropertyNames(SetName).forEach(x => {
                 if (SetName[x].length === 3 && SetName[x][1] <= zone) {
@@ -187,7 +187,7 @@ export function score_raw_equip(data, equip, factors, offhand) {
         return score_vals(get_raw_vals(data, equip, factors, offhand), factors);
 }
 
-export function score_equip(data, equip, factors, offhand, capstats) {
+export function scoreEquip(data, equip, factors, offhand, capstats) {
         return score_vals(get_vals(data, equip, factors, offhand, capstats), factors);
 }
 
@@ -221,7 +221,7 @@ export const shortenExponential = (val, mfd = 3) => {
         return (val - 10 ** Math.floor(Math.log10(val) - mfd)).toExponential(mfd);
 }
 
-export const to_time = (ticks) => {
+export const toTime = (ticks) => {
         let result = '';
         let days = Math.floor(ticks / 50 / 60 / 60 / 24);
         ticks -= days * 24 * 60 * 60 * 50;

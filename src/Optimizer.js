@@ -8,7 +8,7 @@ import {
 } from './assets/ItemAux'
 import {
         allowed_zone,
-        score_equip,
+        scoreEquip,
         score_raw_equip,
         score_vals,
         get_vals,
@@ -98,7 +98,7 @@ export class Optimizer {
         }
 
         score_equip(equip) {
-                return score_equip(this.itemdata, equip, this.factors, this.offhand, this.capstats);
+                return scoreEquip(this.itemdata, equip, this.factors, this.offhand, this.capstats);
         }
 
         score_raw_equip(equip) {
