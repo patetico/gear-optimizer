@@ -1,114 +1,118 @@
-import {ItemNameContainer, Slot} from '../assets/ItemAux'
-import {Optimizer} from '../Optimizer'
-import {old2newequip} from '../util'
-import {Augment} from '../Augment'
-import {Wish} from '../Wish'
-import {cleanState} from '../reducers/Items'
+import { ItemNameContainer } from '../assets/ItemAux';
+import { Optimizer } from '../Optimizer';
+import { Augment } from '../Augment';
+import { Wish } from '../Wish';
+import { cleanState } from '../reducers/Items';
 
-// eslint-disable-next-line
-self.addEventListener("message", choose);
 
-function choose(e) {
-        if (e.data.command === 'optimize') {
-                optimize.call(this, e);
-        } else if (e.data.command === 'optimizeSaves') {
-                optimizeSaves.call(this, e);
-        } else if (e.data.command === 'augment') {
-                augment.call(this, e);
-        } else if (e.data.command === 'wishes') {
-                augment.call(this, e);
-        } else {
-                console.log('Error: invalid web worker command: ' + e.data.command + '.')
-        }
+function log(...args) {
+  // eslint-disable-next-line no-console
+  console.log(...args);
 }
 
+
 function optimize(e) {
-        let start_time = Date.now();
-        let state = e.data.state;
-        let optimizer = new Optimizer(state);
-        // construct base layout from locks
-        let base_layout = optimizer.construct_base(state.locked, state.equip);
-        // optimize the priorities
-        for (let idx = 0; idx < state.factors.length; idx++) {
-                base_layout = optimizer.compute_optimal(base_layout, idx);
-        }
-        // select random remaining layout
-        base_layout = base_layout[Math.floor(Math.random() * base_layout.length)];
-        let equip = optimizer.sort_locks(state.locked, state.equip, base_layout);
-        this.postMessage({equip: equip});
-        console.log(Math.floor((Date.now() - start_time) / 10) / 100 + ' seconds');
-        this.close();
+  const startTime = Date.now();
+  const { state } = e.data;
+  const optimizer = new Optimizer(state);
+  // construct base layout from locks
+  let baseLayout = optimizer.construct_base(state.locked, state.equip);
+  // optimize the priorities
+  for (let idx = 0; idx < state.factors.length; idx++) {
+    baseLayout = optimizer.compute_optimal(baseLayout, idx);
+  }
+  // select random remaining layout
+  baseLayout = baseLayout[Math.floor(Math.random() * baseLayout.length)];
+  const equip = optimizer.sort_locks(state.locked, state.equip, baseLayout);
+  this.postMessage({ equip });
+  log(`${Math.floor((Date.now() - startTime) / 10) / 100} seconds`);
+  this.close();
 }
 
 function optimizeSaves(e) {
-        let start_time = Date.now();
-        const savedequip = e.data.state.savedequip.map(save => {
-                if (save.factors === undefined || save.factors.length === 0) {
-                        console.log('quit early')
-                        return save;
-                }
-                let state = {
-                        ...e.data.state
-                };
-                const hasNoFactors = save.factors === undefined && save.maxslots === undefined;
-                let equip = {
-                        ...ItemNameContainer(state.equip.accessory.length, state.offhand)
-                };
-                let locked = {};
-                if (save.locked === undefined) {
-                        save.locked = {};
-                }
-                Object.getOwnPropertyNames(save.locked).forEach(slot => {
-                        equip[slot] = save.locked[slot].concat(equip[slot].slice(save.locked[slot].length));
-                        locked[slot] = save.locked[slot].map((_, idx) => idx);
-                });
-                state = cleanState({
-                        ...state,
-                        equip: equip,
-                        locked: locked,
-                        factors: hasNoFactors
-                                ? state.factors
-                                : save.factors,
-                        maxslots: hasNoFactors
-                                ? state.maxslots
-                                : save.maxslots
-                });
-                let optimizer = new Optimizer(state);
-                // construct base layout from locks
-                let base_layout = optimizer.construct_base(state.locked, state.equip);
-                // optimize the priorities
-                for (let idx = 0; idx < state.factors.length; idx++) {
-                        base_layout = optimizer.compute_optimal(base_layout, idx);
-                }
-                // select random remaining layout
-                base_layout = base_layout[Math.floor(Math.random() * base_layout.length)];
-                return {
-                        ...save,
-                        ...base_layout
-                };
-        });
-        this.postMessage({savedequip: savedequip});
-        console.log(Math.floor((Date.now() - start_time) / 10) / 100 + ' seconds');
-        this.close();
+  const startTime = Date.now();
+  const savedequip = e.data.state.savedequip.map((save) => {
+    if (save.factors === undefined || save.factors.length === 0) {
+      log('quit early');
+      return save;
+    }
+    let state = { ...e.data.state };
+
+    // FIXME: will always be false, since save.factors is garanteed to be not undefined
+    const hasNoFactors = save.factors === undefined && save.maxslots === undefined;
+    const equip = {
+      ...ItemNameContainer(state.equip.accessory.length, state.offhand),
+    };
+
+    const locked = {};
+    if (save.locked !== undefined) {
+      Object.getOwnPropertyNames(save.locked).forEach((slot) => {
+        equip[slot] = save.locked[slot].concat(equip[slot].slice(save.locked[slot].length));
+        locked[slot] = save.locked[slot].map((_, idx) => idx);
+      });
+    }
+    state = cleanState({
+      ...state,
+      equip,
+      locked,
+      factors: hasNoFactors ? state.factors : save.factors,
+      maxslots: hasNoFactors ? state.maxslots : save.maxslots,
+    });
+
+    const optimizer = new Optimizer(state);
+    // construct base layout from locks
+    let baseLayout = optimizer.construct_base(state.locked, state.equip);
+    // optimize the priorities
+    for (let idx = 0; idx < state.factors.length; idx++) {
+      baseLayout = optimizer.compute_optimal(baseLayout, idx);
+    }
+
+    // select random remaining layout
+    baseLayout = baseLayout[Math.floor(Math.random() * baseLayout.length)];
+    return {
+      ...save,
+      ...baseLayout,
+    };
+  });
+  this.postMessage({ savedequip });
+  log(`${Math.floor((Date.now() - startTime) / 10) / 100} seconds`);
+  this.close();
 }
 
 function augment(e) {
-        const start_time = Date.now();
-        const state = e.data.state;
-        const augment = new Augment(state.augment.lsc, state.augment.time);
-        let vals = augment.optimize();
-        this.postMessage({vals: vals});
-        console.log(Math.floor((Date.now() - start_time) / 10) / 100 + ' seconds');
-        this.close();
+  const startTime = Date.now();
+  const { state } = e.data;
+  const newAugment = new Augment(state.augment.lsc, state.augment.time);
+  const vals = newAugment.optimize();
+  this.postMessage({ vals });
+  log(`${Math.floor((Date.now() - startTime) / 10) / 100} seconds`);
+  this.close();
 }
 
 function wish(e) {
-        const base = [1]
-        const start_time = Date.now();
-        const state = e.data.state;
-        const wish = new Wish(state.wishstats);
-        let vals = wish.optimize();
-        this.postMessage({vals: vals});
-        console.log(Math.floor((Date.now() - start_time) / 10) / 100 + ' seconds');
-        this.close();
+  const startTime = Date.now();
+  const { state } = e.data;
+  const newWish = new Wish(state.wishstats);
+  const vals = newWish.optimize();
+  this.postMessage({ vals });
+  log(`${Math.floor((Date.now() - startTime) / 10) / 100} seconds`);
+  this.close();
 }
+
+
+function choose(e) {
+  if (e.data.command === 'optimize') {
+    optimize.call(this, e);
+  } else if (e.data.command === 'optimizeSaves') {
+    optimizeSaves.call(this, e);
+  } else if (e.data.command === 'augment') {
+    augment.call(this, e);
+  } else if (e.data.command === 'wishes') {
+    wish.call(this, e);
+  } else {
+    // eslint-disable-next-line no-console
+    log(`Error: invalid web worker command: ${e.data.command}.`);
+  }
+}
+
+window.self.addEventListener('message', choose);

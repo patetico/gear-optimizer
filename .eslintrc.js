@@ -32,5 +32,12 @@ module.exports = {
         jest: true,
       },
     },
+    {
+      files: ['*.worker.js'],
+      env: {
+        es6: true,
+        worker: true,
+      },
+    },
   ],
 };
