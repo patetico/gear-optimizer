@@ -6,7 +6,6 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
-    "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint src --ext js,jsx --format pretty",
     "predeploy": "release-it && npm run build",
