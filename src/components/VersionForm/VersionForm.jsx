@@ -1,34 +1,51 @@
 import React from 'react';
-export default class VersionForm extends React.Component {
-        constructor(props) {
-                super(props);
-                this.state = {
-                        value: this.props.version
-                };
-                this.handleChange = this.handleChange.bind(this);
-                this.handleSubmit = this.handleSubmit.bind(this);
-        }
+import PropTypes from 'prop-types';
 
-        handleChange(event) {
-                this.setState({value: event.target.value});
-                this.props.handleChange(event, 'version');
-        }
 
-        handleSubmit(event) {
-                event.preventDefault();
-        }
+class VersionForm extends React.Component {
+  constructor(props) {
+    super(props);
+    const { version } = this.props;
 
-        render() {
-                //HACK: this sets the dropdown to the correct value after loading
-                if (this.state.value !== this.props.augstats.version) {
-                        /* eslint-disable-next-line react/no-direct-mutation-state */
-                        this.state.value = this.props.augstats.version;
-                }
-                const version_names = ['normal', 'evil', 'sadistic'];
-                return (<label>
-                        <select value={this.state.value} onChange={this.handleChange}>
-                                {version_names.map((name, idx) => (<option value={idx} key={idx}>{name}</option>))}
-                        </select>
-                </label>);
-        }
+    this.state = {
+      value: version,
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    const { handleChange } = this.props;
+
+    this.setState({ value: event.target.value });
+    handleChange(event, 'version');
+  }
+
+  render() {
+    const { augstats } = this.props;
+    const { value } = this.state;
+
+
+    // HACK: this sets the dropdown to the correct value after loading
+    if (value !== augstats.version) {
+      /* eslint-disable-next-line react/no-direct-mutation-state */
+      this.state.value = augstats.version;
+    }
+    const versionNames = ['normal', 'evil', 'sadistic'];
+    return (
+      <label>
+        <select value={value} onChange={this.handleChange}>
+          {versionNames.map((name, idx) => (<option value={idx} key={name}>{name}</option>))}
+        </select>
+      </label>
+    );
+  }
 }
+
+VersionForm.propTypes = {
+  version: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  augstats: PropTypes.objectOf(PropTypes.any).isRequired,
+};
+
+export default VersionForm;

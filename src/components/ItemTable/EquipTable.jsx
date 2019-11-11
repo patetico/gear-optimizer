@@ -1,5 +1,6 @@
 /* eslint-disable max-classes-per-file */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip';
 
 import Item from '../Item/Item';
@@ -89,9 +90,7 @@ class BonusLine extends Component {
     return (
       <>
         {' '}
-        {
-          text
-        }
+        {text}
         <br />
       </>
     );
@@ -99,7 +98,22 @@ class BonusLine extends Component {
 }
 
 
-export default class EquipTable extends Component {
+BonusLine.propTypes = {
+  capstats: PropTypes.objectOf(PropTypes.number).isRequired,
+  equip: PropTypes.objectOf(PropTypes.any).isRequired,
+  factor: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.string, PropTypes.array,
+  ])).isRequired,
+  factors: PropTypes.arrayOf(PropTypes.string).isRequired,
+  itemdata: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.object, PropTypes.array,
+  ])).isRequired,
+  offhand: PropTypes.number.isRequired,
+  savedequip: PropTypes.objectOf(PropTypes.any).isRequired,
+};
+
+
+class EquipTable extends Component {
   constructor(props) {
     super(props);
     const { itemdata, cubestats, basestats } = props;
@@ -144,7 +158,7 @@ export default class EquipTable extends Component {
         typeIdx = idx;
         if (item.slot[0] === Slot.ACCESSORY[0]) {
           buffer.push(
-            <div className="item-section" key={this.class_idx++}>
+            <div className="item-section" key={this.class_idx}>
               <span>
                 {`${prefix}Outfit`}
                 <br />
@@ -152,6 +166,7 @@ export default class EquipTable extends Component {
               {localbuffer}
             </div>,
           );
+          this.class_idx += 1;
           localbuffer = [];
         }
       }
@@ -167,7 +182,7 @@ export default class EquipTable extends Component {
       last = item;
     }
     buffer.push(
-      <div className="item-section" key={this.class_idx++}>
+      <div className="item-section" key={this.class_idx}>
         <span>
           {`${prefix}Accessories`}
           <br />
@@ -175,6 +190,7 @@ export default class EquipTable extends Component {
         {localbuffer}
       </div>,
     );
+    this.class_idx += 1;
   }
 
   renderConditional(condition, title, buffer) {
@@ -197,7 +213,7 @@ export default class EquipTable extends Component {
     }
     if (localbuffer.length > 0) {
       buffer.push(
-        <div className="item-section" key={this.class_idx++}>
+        <div className="item-section" key={this.class_idx}>
           <span>
             {title}
             <br />
@@ -205,6 +221,7 @@ export default class EquipTable extends Component {
           {localbuffer}
         </div>,
       );
+      this.class_idx += 1;
     }
   }
 
@@ -231,21 +248,22 @@ export default class EquipTable extends Component {
         <br />
         {' '}
         {
-          Object.getOwnPropertyNames(Factors).map((factor) => (
-            (factor === 'NONE' || factor === 'DELETE' || factor === 'INSERT')
-              ? <div key={factor} />
-              : (
-                <BonusLine
-                  itemdata={this.itemdata}
-                  equip={equip}
-                  savedequip={savedequip}
-                  factor={Factors[factor]}
-                  factors={factors}
-                  capstats={capstats}
-                  offhand={offhand * 5}
-                  key={factor}
-                />
-              )))
+          Object.getOwnPropertyNames(Factors)
+            .map((factor) => (
+              (factor === 'NONE' || factor === 'DELETE' || factor === 'INSERT')
+                ? <div key={factor} />
+                : (
+                  <BonusLine
+                    itemdata={this.itemdata}
+                    equip={equip}
+                    savedequip={savedequip}
+                    factor={Factors[factor]}
+                    factors={factors}
+                    capstats={capstats}
+                    offhand={offhand * 5}
+                    key={factor}
+                  />
+                )))
         }
       </div>,
     );
@@ -258,3 +276,34 @@ export default class EquipTable extends Component {
     );
   }
 }
+
+EquipTable.propTypes = {
+  basestats: PropTypes.shape({
+    power: PropTypes.number,
+    toughness: PropTypes.number,
+  }).isRequired,
+  capstats: PropTypes.objectOf(PropTypes.number).isRequired,
+  cubestats: PropTypes.shape({
+    tier: PropTypes.number,
+    power: PropTypes.number,
+    toughness: PropTypes.number,
+  }).isRequired,
+  equip: PropTypes.objectOf(PropTypes.any).isRequired,
+  factors: PropTypes.arrayOf(PropTypes.string).isRequired,
+  group: PropTypes.string.isRequired,
+  handleClickItem: PropTypes.func.isRequired,
+  handleEquipItem: PropTypes.func.isRequired,
+  handleRightClickItem: PropTypes.func.isRequired,
+  itemdata: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.object, PropTypes.array,
+  ])).isRequired,
+  items: PropTypes.arrayOf(PropTypes.string).isRequired,
+  locked: PropTypes.objectOf(PropTypes.bool).isRequired,
+  offhand: PropTypes.number.isRequired,
+  savedequip: PropTypes.arrayOf(PropTypes.object).isRequired,
+  savedidx: PropTypes.number.isRequired,
+  showsaved: PropTypes.bool.isRequired,
+};
+
+
+export default EquipTable;

@@ -169,7 +169,7 @@ const INITIAL_STATE = {
                                 goal: 1
                         }
                 ],
-                rp_idx: 0
+                rpIndex: 0
         },
         hackstats: {
                 rbeta: 0,

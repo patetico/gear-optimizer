@@ -78,9 +78,9 @@ Item.propTypes = {
   item: PropTypes.shape({
     name: PropTypes.string,
     level: PropTypes.number,
-    slot: PropTypes.arrayOf(PropTypes.oneOfType(
+    slot: PropTypes.arrayOf(PropTypes.oneOfType([
       PropTypes.string, PropTypes.number,
-    )).isRequired,
+    ])).isRequired,
     empty: PropTypes.bool,
     statnames: PropTypes.arrayOf(PropTypes.string),
     disable: PropTypes.bool,

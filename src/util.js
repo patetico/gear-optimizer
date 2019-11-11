@@ -55,7 +55,7 @@ export function clone(obj) {
         throw new Error("Unable to copy obj! Its type isn't supported.");
 }
 
-export function get_limits(state) {
+export function getLimits(state) {
         return {
                 zone: state.zone,
                 titan: getMaxTitan(state.zone),
@@ -65,7 +65,7 @@ export function get_limits(state) {
         }
 }
 
-export function allowed_zone(itemdata, limits, name) {
+export function allowedZone(itemdata, limits, name) {
         const zone = limits.zone;
         const titan = limits.titan;
         const titanversion = limits.titanversion;

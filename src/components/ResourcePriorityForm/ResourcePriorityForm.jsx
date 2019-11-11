@@ -1,35 +1,53 @@
 import React from 'react';
-import {resourcePriorities} from '../../assets/ItemAux';
-export default class ResourcePriorityForm extends React.Component {
-        constructor(props) {
-                super(props);
-                this.state = {
-                        value: this.props.rp_idx
-                };
-                this.handleChange = this.handleChange.bind(this);
-                this.handleSubmit = this.handleSubmit.bind(this);
-        }
+import PropTypes from 'prop-types';
+import { resourcePriorities } from '../../assets/ItemAux';
 
-        handleChange(event) {
-                this.setState({value: event.target.value});
-                this.props.handleChange(event, 'rp_idx', this.props.rp_idx);
-        }
 
-        handleSubmit(event) {
-                event.preventDefault();
-        }
+class ResourcePriorityForm extends React.Component {
+  constructor(props) {
+    super(props);
+    const { rpIndex } = this.props;
+    this.state = {
+      value: rpIndex,
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
 
-        render() {
-                //HACK: this sets the dropdown to the correct value after loading
-                if (this.state.value !== this.props.wishstats.rp_idx) {
-                        /* eslint-disable-next-line react/no-direct-mutation-state */
-                        this.state.value = this.props.wishstats.rp_idx;
-                }
-                const resource_names = 'EMR';
-                return (<label key={this.props.rp_idx}>
-                        <select value={this.state.value} onChange={this.handleChange}>
-                                {resourcePriorities.map((prio, idx) => (<option value={idx} key={idx}>{resource_names[prio[0]] + '>' + resource_names[prio[1]] + '>' + resource_names[prio[2]]}</option>))}
-                        </select>
-                </label>);
-        }
+  handleChange(event) {
+    this.setState({ value: event.target.value });
+    const { rpIndex, handleChange } = this.props;
+    handleChange(event, 'rpIndex', rpIndex);
+  }
+
+  render() {
+    const { rpIndex, wishstats } = this.props;
+    const { value } = this.state;
+
+    // HACK: this sets the dropdown to the correct value after loading
+    if (value !== wishstats.rpIndex) {
+      this.setState({ value: wishstats.rpIndex });
+    }
+
+    const resourceNames = 'EMR';
+    return (
+      <label key={rpIndex}>
+        <select value={value} onChange={this.handleChange}>
+          {resourcePriorities.map((prio, idx) => (
+            <option value={idx} key={prio}>
+              {prio.map((p) => resourceNames[p]).join(' > ')}
+            </option>
+          ))}
+        </select>
+      </label>
+    );
+  }
 }
+
+ResourcePriorityForm.propTypes = {
+  handleChange: PropTypes.func.isRequired,
+  rpIndex: PropTypes.number.isRequired,
+  wishstats: PropTypes.objectOf(PropTypes.any).isRequired,
+};
+
+
+export default ResourcePriorityForm;

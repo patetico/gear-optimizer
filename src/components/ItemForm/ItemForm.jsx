@@ -26,13 +26,20 @@ function LockButton(props) {
 
 
 LockButton.propTypes = {
-  editItem: PropTypes.arrayOf(PropTypes.bool).isRequired,
-  equip: PropTypes.objectOf(PropTypes.array).isRequired,
+  editItem: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.bool, PropTypes.string, PropTypes.number,
+  ])).isRequired,
+  equip: PropTypes.objectOf(PropTypes.any).isRequired,
   handleLockItem: PropTypes.func.isRequired,
-  itemdata: PropTypes.arrayOf(PropTypes.shape({
-    empty: PropTypes.bool,
-  })).isRequired,
-  locked: PropTypes.bool.isRequired,
+  itemdata: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.object,
+  ])).isRequired,
+  locked: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.number)),
+};
+
+LockButton.defaultProps = {
+  locked: {},
 };
 
 
@@ -117,15 +124,18 @@ class ItemForm extends Component {
 
 ItemForm.propTypes = {
   closeEditModal: PropTypes.func.isRequired,
-  editItem: PropTypes.arrayOf(PropTypes.bool).isRequired,
-  equip: PropTypes.objectOf(PropTypes.array).isRequired,
+  editItem: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.bool, PropTypes.string, PropTypes.number,
+  ])).isRequired,
+  equip: PropTypes.objectOf(PropTypes.any).isRequired,
   handleDisableItem: PropTypes.func.isRequired,
   handleEditItem: PropTypes.func.isRequired,
   handleLockItem: PropTypes.func.isRequired,
-  itemdata: PropTypes.arrayOf(PropTypes.shape({
-    empty: PropTypes.bool,
-  })).isRequired,
-  locked: PropTypes.bool.isRequired,
+  itemdata: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.object,
+  ])).isRequired,
+  locked: PropTypes.objectOf(PropTypes.bool).isRequired,
 };
 
 export default ItemForm;

@@ -405,7 +405,9 @@ Optimizer.propTypes = {
     toughness: PropTypes.number,
   }).isRequired,
   className: PropTypes.string.isRequired,
-  editItem: PropTypes.arrayOf(PropTypes.bool).isRequired,
+  editItem: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.bool, PropTypes.string, PropTypes.number,
+  ])).isRequired,
   equip: PropTypes.shape({
     weapon: PropTypes.arrayOf(PropTypes.string),
     head: PropTypes.arrayOf(PropTypes.string),

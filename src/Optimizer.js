@@ -7,14 +7,14 @@ import {
         Factors
 } from './assets/ItemAux'
 import {
-        allowed_zone,
+        allowedZone,
         scoreEquip,
         score_raw_equip,
         score_vals,
         get_vals,
         get_raw_vals,
         clone,
-        get_limits,
+        getLimits,
         old2newequip,
         cubeBaseItemData,
         hardcap
@@ -30,7 +30,7 @@ export class Optimizer {
                 this.maxslotslist = state.maxslots;
                 this.accslots = state.equip.accessory.length;
                 this.offhand = state.offhand * 5;
-                this.limits = get_limits(state);
+                this.limits = getLimits(state);
                 this.capstats = state.capstats;
         }
 
@@ -440,7 +440,7 @@ export class Optimizer {
         gear_slot(type, equip) {
                 const equiped = equip.items.filter((item) => (item.slot[0] === type[0])).map((x) => (x.name));
                 return this.itemnames.filter((name) => {
-                        if (!allowed_zone(this.itemdata, this.limits, name)) {
+                        if (!allowedZone(this.itemdata, this.limits, name)) {
                                 return false;
                         }
                         return this.itemdata[name].slot[0] === type[0];

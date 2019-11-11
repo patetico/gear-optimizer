@@ -234,7 +234,7 @@ class AugmentComponent extends Component {
 
 AugmentComponent.propTypes = {
   augstats: PropTypes.shape({
-    version: PropTypes.string,
+    version: PropTypes.number,
     augs: PropTypes.array,
     ecap: PropTypes.number,
     augspeed: PropTypes.number,

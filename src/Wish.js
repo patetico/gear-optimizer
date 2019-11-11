@@ -188,7 +188,7 @@ export class Wish {
 
         optimize() {
                 let global_start_time = Date.now();
-                const resource_priority = resourcePriorities[this.wishstats.rp_idx];
+                const resource_priority = resourcePriorities[this.wishstats.rpIndex];
                 const costs = this.wishstats.wishes.map(wish => Wishes[wish.wishidx][1] * wish.goal);
                 const wishcap = this.wishstats.wishcap/* minutes */ * 60 * 50;
                 const mintottime = Math.max(...this.wishstats.wishes.map(wish => wish.goal - wish.start)) * wishcap;
