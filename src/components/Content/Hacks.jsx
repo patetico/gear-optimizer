@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactGA from 'react-ga';
 
-import { Hack } from '../../Hack';
+import Hack from '../../Hack';
 import { Hacks } from '../../assets/ItemAux';
 import { shorten, toTime } from '../../util';
 

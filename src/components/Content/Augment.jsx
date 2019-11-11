@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactGA from 'react-ga';
 
 
-import { Augment } from '../../Augment';
+import Augment from '../../Augment';
 import { shortenExponential } from '../../util';
 import VersionForm from '../VersionForm/VersionForm';
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactGA from 'react-ga';
 
-import { NGU } from '../../NGU';
+import NGU from '../../NGU';
 import { NGUs } from '../../assets/ItemAux';
 import { shorten } from '../../util';
 
@@ -215,7 +215,7 @@ class NGUComponent extends Component {
                   const isMagic = resourceIdx === 2 ? 1 : 0;
                   const stats = ngustats1[resource].ngus;
                   return NGUs[resource].map((ngu, pos) => {
-                    const bonus = nguOptimizer.bonus(ngu, stats[pos]);
+                    const bonus = NGU.bonus(ngu, stats[pos]);
                     const { ngustats: ngustats2 } = this.props;
                     const reachable = nguOptimizer.reachableBonus(
                       stats[pos],
