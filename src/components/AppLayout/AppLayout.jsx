@@ -5,12 +5,12 @@ import { HashRouter as Router, NavLink, Route } from 'react-router-dom';
 
 import './AppLayout.css';
 
-import Optimizer from '../Content/Optimizer';
-import Augment from '../Content/Augment';
-import NGUComponent from '../Content/NGUs';
-import HackComponent from '../Content/Hacks';
-import WishComponent from '../Content/Wishes';
-import About from '../About/About';
+import Optimizer from '../../pages/optimizer/Optimizer';
+import Augment from '../../pages/augment/Augment';
+import NGUs from '../../pages/ngus/NGUs';
+import Hacks from '../../pages/hacks/Hacks';
+import Wishes from '../../pages/wishes/Wishes';
+import About from '../../pages/about/About';
 import HowTo from '../../pages/howto/HowTo';
 
 
@@ -104,19 +104,19 @@ const AppLayout = (props) => (
           exact
           path="/ngus/"
           render={(routeProps) => (
-            <NGUComponent {...routeProps} {...props} className="app_body" />)}
+            <NGUs {...routeProps} {...props} className="app_body" />)}
         />
         <Route
           exact
           path="/hacks/"
           render={(routeProps) => (
-            <HackComponent {...routeProps} {...props} className="app_body" />)}
+            <Hacks {...routeProps} {...props} className="app_body" />)}
         />
         <Route
           exact
           path="/wishes/"
           render={(routeProps) => (
-            <WishComponent {...routeProps} {...props} className="app_body" />)}
+            <Wishes {...routeProps} {...props} className="app_body" />)}
         />
         <Route exact path="/about/" component={About} />
       </div>

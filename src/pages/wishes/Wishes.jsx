@@ -4,9 +4,9 @@ import ReactGA from 'react-ga';
 
 import { Wish } from '../../Wish';
 import { Wishes } from '../../assets/ItemAux';
-import ResourcePriorityForm from '../ResourcePriorityForm/ResourcePriorityForm';
-import WishForm from '../WishForm/WishForm';
-import Crement from '../Crement/Crement';
+import ResourcePriorityForm from '../../components/ResourcePriorityForm/ResourcePriorityForm';
+import WishForm from '../../components/WishForm/WishForm';
+import Crement from '../../components/Crement/Crement';
 
 
 class WishComponent extends Component {

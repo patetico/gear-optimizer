@@ -7,12 +7,12 @@ import Modal from 'react-modal';
 import { getMaxTitan, getMaxZone, getZone } from '../../util';
 import { LOOTIES, PENDANTS } from '../../assets/Items';
 
-import Crement from '../Crement/Crement';
-import ItemTable from '../ItemTable/ItemTable';
-import EquipTable from '../ItemTable/EquipTable';
-import OptimizeButton from '../OptimizeButton/OptimizeButton';
-import FactorForm from '../FactorForm/FactorForm';
-import ItemForm from '../ItemForm/ItemForm';
+import Crement from '../../components/Crement/Crement';
+import ItemTable from '../../components/ItemTable/ItemTable';
+import EquipTable from '../../components/ItemTable/EquipTable';
+import OptimizeButton from '../../components/OptimizeButton/OptimizeButton';
+import FactorForm from '../../components/FactorForm/FactorForm';
+import ItemForm from '../../components/ItemForm/ItemForm';
 
 import './Optimizer.css';
 

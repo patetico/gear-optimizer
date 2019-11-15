@@ -5,7 +5,7 @@ import ReactGA from 'react-ga';
 
 import Augment from '../../Augment';
 import { shortenExponential } from '../../util';
-import VersionForm from '../VersionForm/VersionForm';
+import VersionForm from '../../components/VersionForm/VersionForm';
 
 
 const AUGS = [
