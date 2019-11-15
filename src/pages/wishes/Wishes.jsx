@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactGA from 'react-ga';
 
-import { Wish } from '../../Wish';
+import Wish from '../../Wish';
 import { Wishes } from '../../assets/ItemAux';
 import ResourcePriorityForm from '../../components/ResourcePriorityForm/ResourcePriorityForm';
 import WishForm from '../../components/WishForm/WishForm';
