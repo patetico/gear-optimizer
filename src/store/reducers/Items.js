@@ -241,10 +241,10 @@ const ItemsReducer = (state = INITIAL_STATE, action) => {
     case AUGMENT_SETTINGS: {
       let lsc = Number(action.payload.lsc);
       let time = Number(action.payload.time);
-      if (Math.isNaN(lsc)) {
+      if (Number.isNaN(lsc)) {
         lsc = 20;
       }
-      if (Math.isNaN(time)) {
+      if (Number.isNaN(time)) {
         time = 1440;
       }
       return {
@@ -386,7 +386,7 @@ const ItemsReducer = (state = INITIAL_STATE, action) => {
     }
 
     case EDIT_ITEM: {
-      if (Math.isNaN(action.payload.val)) {
+      if (Number.isNaN(action.payload.val)) {
         return state;
       }
       if (action.payload.val < 0 || action.payload.val > 100) {

@@ -79,7 +79,7 @@ class ItemForm extends Component {
     } else {
       val = Number(val);
     }
-    if (Math.isNaN(val)) {
+    if (Number.isNaN(val)) {
       val = 100;
     }
     this.setState({ value: val });

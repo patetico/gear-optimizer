@@ -34,7 +34,7 @@ export default class NGU {
     if (level > 1e9) {
       return 1e9;
     }
-    if (Math.isNaN(level)) {
+    if (Number.isNaN(level)) {
       return 1;
     }
     const data = ngu[version];
@@ -51,7 +51,7 @@ export default class NGU {
     if (level > 1e9) {
       return 1e9;
     }
-    if (Math.isNaN(level)) {
+    if (Number.isNaN(level)) {
       return 1;
     }
     const data = ngu[version];
