@@ -1,5 +1,5 @@
-import { LOCALSTORAGE_NAME } from '../constants';
-import { ITEMLIST } from '../assets/Items';
+import { LOCALSTORAGE_NAME } from '../../constants';
+import { ITEMLIST } from '../../assets/Items';
 import {
   ItemContainer,
   ItemNameContainer,
@@ -10,7 +10,7 @@ import {
   Factors,
   Hacks,
   NGUs,
-} from '../assets/ItemAux';
+} from '../../assets/ItemAux';
 
 
 import { AUGMENT, AUGMENT_SETTINGS } from '../actions/Augment';

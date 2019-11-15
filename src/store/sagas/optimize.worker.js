@@ -1,7 +1,7 @@
-import { ItemNameContainer } from '../assets/ItemAux';
-import { Optimizer } from '../Optimizer';
-import { Augment } from '../Augment';
-import { Wish } from '../Wish';
+import { ItemNameContainer } from '../../assets/ItemAux';
+import Optimizer from '../../Optimizer';
+import Augment from '../../Augment';
+import Wish from '../../Wish';
 import { cleanState } from '../reducers/Items';
 
 
@@ -16,14 +16,14 @@ function optimize(e) {
   const { state } = e.data;
   const optimizer = new Optimizer(state);
   // construct base layout from locks
-  let baseLayout = optimizer.construct_base(state.locked, state.equip);
+  let baseLayout = optimizer.constructBase(state.locked, state.equip);
   // optimize the priorities
   for (let idx = 0; idx < state.factors.length; idx++) {
-    baseLayout = optimizer.compute_optimal(baseLayout, idx);
+    baseLayout = optimizer.computeOptimal(baseLayout, idx);
   }
   // select random remaining layout
   baseLayout = baseLayout[Math.floor(Math.random() * baseLayout.length)];
-  const equip = optimizer.sort_locks(state.locked, state.equip, baseLayout);
+  const equip = Optimizer.sortLocks(state.locked, state.equip, baseLayout);
   this.postMessage({ equip });
   log(`${Math.floor((Date.now() - startTime) / 10) / 100} seconds`);
   this.close();
@@ -61,10 +61,10 @@ function optimizeSaves(e) {
 
     const optimizer = new Optimizer(state);
     // construct base layout from locks
-    let baseLayout = optimizer.construct_base(state.locked, state.equip);
+    let baseLayout = optimizer.constructBase(state.locked, state.equip);
     // optimize the priorities
     for (let idx = 0; idx < state.factors.length; idx++) {
-      baseLayout = optimizer.compute_optimal(baseLayout, idx);
+      baseLayout = optimizer.computeOptimal(baseLayout, idx);
     }
 
     // select random remaining layout
@@ -115,4 +115,5 @@ function choose(e) {
   }
 }
 
-window.self.addEventListener('message', choose);
+// eslint-disable-next-line no-restricted-globals
+self.addEventListener('message', choose);
